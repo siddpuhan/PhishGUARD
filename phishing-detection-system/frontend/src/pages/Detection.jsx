@@ -27,6 +27,7 @@ const Detection = () => {
             setResult(data.result);
         } catch (error) {
             console.error(error);
+            alert(error.response?.data?.message || 'Error analyzing. The service might be waking up, please try again.');
         } finally {
             setLoading(false);
         }
@@ -113,7 +114,7 @@ const Detection = () => {
                                         {loading ? (
                                             <div className="flex items-center">
                                                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                                                Analyzing Threat Vector...
+                                                Analyzing... (may take 60s if service is sleeping)
                                             </div>
                                         ) : (
                                             <div className="flex items-center">

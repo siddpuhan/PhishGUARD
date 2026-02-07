@@ -12,11 +12,16 @@ const predictPhishing = async (req, res) => {
     }
 
     try {
-        // Call FastAPI ML Service
+        // Call FastAPI ML Service with extended timeout for Render free tier wake-up
         const mlServiceUrl = process.env.ML_SERVICE_URL || 'http://127.0.0.1:8000';
         const mlResponse = await axios.post(`${mlServiceUrl}/predict`, {
             text,
             type,
+        }, {
+            timeout: 90000, // 90 seconds to allow for Render free tier wake-up
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
 
         const { is_phishing, confidence, features } = mlResponse.data;
@@ -51,8 +56,17 @@ const predictPhishing = async (req, res) => {
             }
         });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error processing scan request' });
+        console.error('ML Service Error:', error.message);
+        if (error.code === 'ECONNABORTED') {
+            return res.status(504).json({ 
+                message: 'ML service is waking up. Please try again in a moment.',
+                error: 'timeout'
+            });
+        }
+        res.status(500).json({ 
+            message: 'Error processing scan request',
+            error: error.response?.data?.detail || error.message
+        });
     }
 };
 
