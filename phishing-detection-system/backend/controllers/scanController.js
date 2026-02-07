@@ -42,7 +42,14 @@ const predictPhishing = async (req, res) => {
             return res.status(500).json({ message: 'Error saving scan' });
         }
 
-        res.json(scan);
+        // Return in format expected by frontend
+        res.json({
+            result: {
+                isPhishing: is_phishing,
+                confidence: confidence,
+                features: features,
+            }
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error processing scan request' });
