@@ -1,0 +1,13 @@
+text,label
+http://google.com,legitimate
+http://secure-login-apple.com,phishing
+Verify your account now,phishing
+Your account has been compromised,phishing
+http://example.com/login,legitimate
+http://192.168.1.1/admin,phishing
+Congratulations you won a lottery,phishing
+Meeting at 3pm tomorrow,legitimate
+Update your password immediately,phishing
+http://amazon-security-check.com,phishing
+https://github.com,legitimate
+https://stackoverflow.com,legitimate
