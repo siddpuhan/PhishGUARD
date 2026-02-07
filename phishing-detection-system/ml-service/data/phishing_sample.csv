@@ -1,13 +1,126 @@
 text,label
-http://google.com,legitimate
-http://secure-login-apple.com,phishing
-Verify your account now,phishing
-Your account has been compromised,phishing
-http://example.com/login,legitimate
-http://192.168.1.1/admin,phishing
-Congratulations you won a lottery,phishing
-Meeting at 3pm tomorrow,legitimate
-Update your password immediately,phishing
-http://amazon-security-check.com,phishing
+http://google-account-suspended.com/verify,phishing
+Your subscription expires today. Renew now,phishing
+http://payment-update.com/verify,phishing
+Dinner plans for Saturday evening,legitimate
+Your refund is ready. Claim within 48 hours,phishing
+https://youtube.com,legitimate
+Update required: Your account is outdated,phishing
+New course available on platform,legitimate
+https://spotify.com,legitimate
+Security alert: Verify your credit card details now,phishing
+Final notice: Your password expired. Reset now,phishing
+New feature released in latest update,legitimate
+Confirm your email or lose access forever,phishing
+Flight check-in is now available,legitimate
+http://netflix-payment-update.net/billing,phishing
+"Movie night this Friday, are you free",legitimate
+Your Apple ID has been locked. Verify immediately,phishing
+Weather forecast: Sunny tomorrow,legitimate
+Microsoft account security alert. Click to verify,phishing
+Employee of the month announcement,legitimate
+Final warning: Verify account or be deleted,phishing
+Book club meeting next Tuesday,legitimate
+URGENT: Your bank account will be closed. Verify now,phishing
+WARNING: Suspicious login attempt detected,phishing
+http://account-security-alert.net,phishing
+Conference registration successful,legitimate
+Your Amazon order failed. Update payment method,phishing
+WINNER: Claim your lottery prize before it expires,phishing
+Security breach detected. Change password now,phishing
+Performance review scheduled,legitimate
+https://reddit.com,legitimate
+Thanks for the help with the project,legitimate
+Please review the quarterly report,legitimate
+http://apple-id-verify-account.com/login,phishing
+Vacation request approved,legitimate
+FREE iPhone 15 Pro. Limited offer. Click here,phishing
+Your package delivery failed. Update address now,phishing
+https://google.com,legitimate
+https://facebook.com,legitimate
+http://secure-login-update-verify.com,phishing
+https://github.com/trending,legitimate
+Verify your identity to prevent account closure,phishing
+http://bankofamerica-secure.org/signin,phishing
+http://confirm-account-details.org,phishing
+Your project deadline is next Friday,legitimate
+IMMEDIATE ACTION REQUIRED: Your account at risk,phishing
+Community event this Saturday,legitimate
+Account will be deleted in 24 hours. Act now,phishing
+Your subscription has been confirmed,legitimate
+Monthly newsletter: Industry insights,legitimate
+http://secure-paypal-verify.com/login,phishing
+Lunch meeting scheduled for Thursday,legitimate
+Hey! Want to grab coffee this weekend,legitimate
+"Tax refund of $3,847 pending. Click to claim",phishing
+Your computer has a virus. Click to remove,phishing
+http://172.16.0.50/verify/account,phishing
+http://microsoft-account-recovery.net/reset,phishing
+Your report was submitted successfully,legitimate
+http://10.0.0.1/secure/bank,phishing
+Blog post published: 10 productivity tips,legitimate
+http://wellsfargo-alert.com/verify,phishing
+Survey: Help us improve our service,legitimate
+Account verification needed within 2 hours,phishing
+Your order has been delivered,legitimate
+Appointment reminder: March 15 at 2:30 PM,legitimate
+Recipe of the week: Pasta carbonara,legitimate
+Team building event next month,legitimate
+http://192.168.1.100/admin/login,phishing
+Google account suspended. Confirm your identity,phishing
+Training session on Friday afternoon,legitimate
+Your account will be suspended. Update your information,phishing
+http://amazon-security-check.com/update,phishing
+IRS: You have unclaimed tax refund. Verify SSN,phishing
+Looking forward to seeing you next month,legitimate
+Reminder: Dentist appointment tomorrow,legitimate
+http://chase-bank-security.net/update,phishing
 https://github.com,legitimate
+Office will be closed on holidays,legitimate
+Welcome aboard! First day orientation,legitimate
+Account locked due to suspicious activity,phishing
+Credit card declined. Update payment info,phishing
+https://microsoft.com,legitimate
+Your account has been hacked. Reset credentials,phishing
+https://apple.com,legitimate
+Thank you for your purchase. Order shipped successfully,legitimate
+Product demo scheduled for Tuesday,legitimate
+Yoga class starts at 7 AM tomorrow,legitimate
+Your package will arrive in 2 days,legitimate
+Payment authorization required. Click immediately,phishing
+Your email will be deleted. Click to prevent,phishing
+https://wikipedia.org,legitimate
+Urgent security update required. Download now,phishing
 https://stackoverflow.com,legitimate
+Webinar recording now available,legitimate
+Confirm your phone number immediately,phishing
+Great job on the presentation today,legitimate
+http://verify-identity-now.com,phishing
+Server maintenance scheduled for weekend,legitimate
+Security code needed. Reply with your password,phishing
+Meeting notes from today are attached,legitimate
+Prescription ready for pickup,legitimate
+http://account-confirm.net/secure,phishing
+Your data has been compromised. Verify immediately,phishing
+Expense report approved,legitimate
+Your PayPal account has been limited. Click here to restore,phishing
+Package held at customs. Pay fee to release,phishing
+You are our lucky winner. Click to claim your prize,phishing
+Alert: Unusual activity detected. Confirm your identity immediately,phishing
+You won a $5000 Amazon gift card. Confirm details,phishing
+Library book due next Monday,legitimate
+Welcome to our newsletter,legitimate
+https://linkedin.com,legitimate
+Congratulations on your promotion,legitimate
+Can we reschedule our meeting to Monday,legitimate
+https://twitter.com,legitimate
+https://amazon.com,legitimate
+Updated terms of service,legitimate
+"Congratulations! You won $1,000,000. Claim now",phishing
+"Hi team, reminder about meeting tomorrow at 3 PM",legitimate
+Happy birthday! Hope you have a great day,legitimate
+New company policy effective January,legitimate
+Netflix payment declined. Update billing information,phishing
+https://netflix.com,legitimate
+Invoice overdue. Pay immediately to avoid penalty,phishing
+Your gym membership renewed successfully,legitimate
