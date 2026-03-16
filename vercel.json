@@ -1,7 +1,4 @@
 {
-  "version": 2,
-  "buildCommand": "cd phishing-detection-system/frontend && npm install && npm run build",
-  "outputDirectory": "phishing-detection-system/frontend/dist",
-  "installCommand": null,
-  "devCommand": null
+  "buildCommand": "npm --prefix phishing-detection-system/frontend install && npm --prefix phishing-detection-system/frontend run build",
+  "outputDirectory": "phishing-detection-system/frontend/dist"
 }
