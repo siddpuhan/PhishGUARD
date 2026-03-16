@@ -20,10 +20,19 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
+        setError('');
+        
+        // Show wake-up message after 3 seconds
+        const wakeUpTimer = setTimeout(() => {
+            setError('⏳ Server is waking up... This may take up to 60 seconds on first load.');
+        }, 3000);
+        
         try {
             await register(username, email, password);
+            clearTimeout(wakeUpTimer);
             navigate('/dashboard');
         } catch (err) {
+            clearTimeout(wakeUpTimer);
             setError('Registration failed. Try again.');
         } finally {
             setIsLoading(false);
@@ -56,7 +65,11 @@ const Register = () => {
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             {error && (
-                                <div className="p-3 rounded-md bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
+                                <div className={`p-3 rounded-md border text-sm text-center ${
+                                    error.includes('⏳') 
+                                        ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400'
+                                        : 'bg-red-500/10 border-red-500/20 text-red-400'
+                                }`}>
                                     {error}
                                 </div>
                             )}
