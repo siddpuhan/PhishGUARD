@@ -1,7 +1,7 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "installCommand": "npm install",
-  "framework": "vite",
-  "rootDirectory": "phishing-detection-system/frontend"
+  "version": 2,
+  "buildCommand": "cd phishing-detection-system/frontend && npm install && npm run build",
+  "outputDirectory": "phishing-detection-system/frontend/dist",
+  "installCommand": null,
+  "devCommand": null
 }
