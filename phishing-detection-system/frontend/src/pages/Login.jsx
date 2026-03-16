@@ -54,22 +54,6 @@ const Login = () => {
                     transition={{ duration: 0.6 }}
                     className="w-full max-w-md"
                 >
-                    {/* Section Number */}
-                    <div className="font-mono text-xs text-lime-400 mb-2 uppercase tracking-[0.2em]">
-                        [01] Authentication
-                    </div>
-
-                    {/* Title - Brutalist */}
-                    <h1 className="font-display text-6xl md:text-7xl uppercase mb-2 leading-none text-white">
-                        ACCESS
-                    </h1>
-                    <h2 className="font-display text-6xl md:text-7xl uppercase mb-8 leading-none text-lime-400">
-                        SYSTEM
-                    </h2>
-
-                    {/* Decorative Line */}
-                    <div className="h-px w-full bg-lime-400/30 mb-8"></div>
-
                     {/* Form Container - Sharp Borders */}
                     <div className="border-2 border-lime-400/20 bg-[#1a1a1a] p-8 relative">
                         {/* Terminal-style header */}
