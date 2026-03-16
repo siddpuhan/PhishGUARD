@@ -1,11 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
-import { Shield, User, Mail, Lock, CheckCircle2, Loader2 } from 'lucide-react';
+import { Shield, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Register = () => {
@@ -40,100 +36,155 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen w-full flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0d1117] to-black relative overflow-hidden">
-             {/* Ambient Background Effects */}
-             <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
-             <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl" />
+        <div className="min-h-screen bg-[#121212] text-white relative overflow-hidden">
+            {/* Scan-line Effect */}
+            <div className="scanline"></div>
 
-            <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="z-10 w-full max-w-md p-4"
-            >
-                <div className="flex justify-center mb-8">
-                     <div className="h-16 w-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
-                        <Shield className="h-8 w-8 text-emerald-400" />
+            {/* Back to Home Link */}
+            <Link to="/" className="fixed top-6 left-6 z-50 flex items-center space-x-2 group">
+                <Shield className="h-6 w-6 text-lime-400" strokeWidth={1.5} />
+                <span className="font-mono text-sm uppercase tracking-wider text-gray-400 group-hover:text-lime-400 transition-colors">
+                    PhishGUARD
+                </span>
+            </Link>
+
+            <div className="container mx-auto px-6 min-h-screen flex items-center justify-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="w-full max-w-md"
+                >
+                    {/* Section Number */}
+                    <div className="font-mono text-xs text-lime-400 mb-2 uppercase tracking-[0.2em]">
+                        [02] Registration
                     </div>
-                </div>
 
-                <Card className="border-slate-800 bg-slate-950/50 backdrop-blur-xl shadow-2xl">
-                    <CardHeader className="space-y-1 text-center">
-                        <CardTitle className="text-2xl text-white tracking-tight">Create Account</CardTitle>
-                        <CardDescription>Join the secure network today</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                    {/* Title - Brutalist */}
+                    <h1 className="font-display text-6xl md:text-7xl uppercase mb-2 leading-none text-white">
+                        CREATE
+                    </h1>
+                    <h2 className="font-display text-6xl md:text-7xl uppercase mb-8 leading-none text-lime-400">
+                        ACCOUNT
+                    </h2>
+
+                    {/* Decorative Line */}
+                    <div className="h-px w-full bg-lime-400/30 mb-8"></div>
+
+                    {/* Form Container - Sharp Borders */}
+                    <div className="border-2 border-lime-400/20 bg-[#1a1a1a] p-8 relative">
+                        {/* Terminal-style header */}
+                        <div className="absolute top-0 left-0 right-0 h-8 bg-lime-400/5 border-b border-lime-400/20 flex items-center px-3">
+                            <div className="flex space-x-2">
+                                <div className="w-2 h-2 bg-lime-400/40"></div>
+                                <div className="w-2 h-2 bg-lime-400/40"></div>
+                                <div className="w-2 h-2 bg-lime-400/40"></div>
+                            </div>
+                            <span className="ml-4 font-mono text-xs text-lime-400/60 uppercase">Registration Terminal</span>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="space-y-6 mt-8">
+                            {/* Error Message */}
                             {error && (
-                                <div className={`p-3 rounded-md border text-sm text-center ${
+                                <div className={`p-4 border-2 font-mono text-xs ${
                                     error.includes('⏳') 
-                                        ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400'
-                                        : 'bg-red-500/10 border-red-500/20 text-red-400'
+                                        ? 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400'
+                                        : 'bg-red-500/10 border-red-500/30 text-red-400'
                                 }`}>
+                                    <div className="font-bold mb-1">&gt; SYSTEM MESSAGE</div>
                                     {error}
                                 </div>
                             )}
+
+                            {/* Username Input */}
                             <div className="space-y-2">
-                                <Label htmlFor="username">Username</Label>
-                                <div className="relative">
-                                    <User className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
-                                    <Input
-                                        id="username"
-                                        type="text"
-                                        placeholder="jdoe"
-                                        className="pl-9"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        required
-                                    />
-                                </div>
+                                <label htmlFor="username" className="font-mono text-xs uppercase tracking-wider text-lime-400 block">
+                                    Username
+                                </label>
+                                <input
+                                    id="username"
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    required
+                                    className="w-full bg-[#0f0f0f] border-2 border-lime-400/20 px-4 py-3 font-mono text-sm text-white focus:border-lime-400 focus:outline-none transition-colors"
+                                    placeholder="enter_username"
+                                />
                             </div>
+
+                            {/* Email Input */}
                             <div className="space-y-2">
-                                <Label htmlFor="email">Email</Label>
-                                <div className="relative">
-                                    <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        placeholder="name@example.com"
-                                        className="pl-9"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                    />
-                                </div>
+                                <label htmlFor="email" className="font-mono text-xs uppercase tracking-wider text-lime-400 block">
+                                    Email Address
+                                </label>
+                                <input
+                                    id="email"
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                    className="w-full bg-[#0f0f0f] border-2 border-lime-400/20 px-4 py-3 font-mono text-sm text-white focus:border-lime-400 focus:outline-none transition-colors"
+                                    placeholder="user@example.com"
+                                />
                             </div>
+
+                            {/* Password Input */}
                             <div className="space-y-2">
-                                <Label htmlFor="password">Password</Label>
-                                <div className="relative">
-                                    <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
-                                    <Input
-                                        id="password"
-                                        type="password"
-                                        placeholder="••••••••"
-                                        className="pl-9"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                    />
-                                </div>
+                                <label htmlFor="password" className="font-mono text-xs uppercase tracking-wider text-lime-400 block">
+                                    Password
+                                </label>
+                                <input
+                                    id="password"
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                    className="w-full bg-[#0f0f0f] border-2 border-lime-400/20 px-4 py-3 font-mono text-sm text-white focus:border-lime-400 focus:outline-none transition-colors"
+                                    placeholder="••••••••••"
+                                />
                             </div>
-                            <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white" type="submit" disabled={isLoading}>
-                                {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <CheckCircle2 className="mr-2 h-4 w-4" />}
-                                {isLoading ? 'Creating Account...' : 'Register'}
-                            </Button>
+
+                            {/* Submit Button */}
+                            <button
+                                type="submit"
+                                disabled={isLoading}
+                                className="w-full bg-lime-400 text-black font-mono text-xs uppercase tracking-wider px-6 py-4 border-2 border-lime-400 hover:bg-transparent hover:text-lime-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <div className="w-4 h-4 border-2 border-black/30 border-t-black animate-spin rounded-full"></div>
+                                        <span>Creating Account...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span>Register User</span>
+                                        <ArrowRight className="h-4 w-4" />
+                                    </>
+                                )}
+                            </button>
                         </form>
-                    </CardContent>
-                    <CardFooter className="flex justify-center">
-                        <p className="text-sm text-muted-foreground">
-                            Already have an account?{' '}
-                            <Link to="/login" className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
-                                Sign In
-                            </Link>
-                        </p>
-                    </CardFooter>
-                </Card>
-            </motion.div>
+
+                        {/* Login Link */}
+                        <div className="mt-6 pt-6 border-t border-lime-400/20">
+                            <p className="font-mono text-xs text-gray-400 text-center">
+                                Already registered?{' '}
+                                <Link to="/login" className="text-lime-400 hover:underline uppercase tracking-wider">
+                                    Login Here
+                                </Link>
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Status Indicator */}
+                    <div className="mt-6 flex items-center justify-between font-mono text-xs text-gray-600">
+                        <div>SECURE_CONNECTION</div>
+                        <div className="flex items-center space-x-2">
+                            <div className="w-2 h-2 bg-lime-400 animate-pulse"></div>
+                            <span>ONLINE</span>
+                        </div>
+                    </div>
+                </motion.div>
+            </div>
         </div>
     );
 };
