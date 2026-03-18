@@ -1,0 +1,53 @@
+# Environment files with secrets
+.env
+backend/.env
+frontend/.env
+ml-service/.env
+
+# Node modules
+node_modules/
+*/node_modules/
+
+# Build outputs
+dist/
+build/
+*/dist/
+*/build/
+
+# ML models (large files - should be tracked separately or via Git LFS)
+*.pkl
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Docker
+.dockerignore
+
+# Misc
+.cache/
+coverage/
+.nyc_output/
