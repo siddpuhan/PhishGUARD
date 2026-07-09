@@ -23,6 +23,8 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/detect" element={<Detection />} />
+            <Route path="/scan" element={<Detection />} />
+            <Route path="/result" element={<Detection />} />
             <Route path="/history" element={<History />} />
             <Route path="/analytics" element={<Analytics />} />
           </Route>
