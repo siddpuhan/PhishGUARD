@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import api from '../services/api';
-<<<<<<< Updated upstream
 import { Shield, Mail, Globe, AlertTriangle, CheckCircle, Terminal, Cpu } from 'lucide-react';
-=======
-import { Button } from '../components/ui/button';
-import { Shield, Mail, Globe, AlertTriangle, ShieldAlert, ShieldCheck, Loader2, ArrowRight, Activity, Terminal } from 'lucide-react';
->>>>>>> Stashed changes
 import { motion, AnimatePresence } from 'framer-motion';
 
 const TerminalLine = ({ children, delay = 0 }) => (
@@ -56,21 +51,12 @@ const Detection = () => {
 
         try {
             const { data } = await api.post('/scan/predict', { text, type });
-<<<<<<< Updated upstream
             await new Promise(resolve => setTimeout(resolve, 2000)); // Ensure logs finish
             setResult(data.result);
         } catch (error) {
             console.error(error);
             setLogs(prev => [...prev, "ERROR: CONNECTION_FAILED"]);
             alert('Analysis failed. Please try again.');
-=======
-            // Artificial delay for technical feel
-            await new Promise(resolve => setTimeout(resolve, 1200)); 
-            setResult(data.result);
-        } catch (error) {
-            console.error("Inference failure", error);
-            alert('Security engine communication failure. Verify system connection.');
->>>>>>> Stashed changes
         } finally {
             clearInterval(interval);
             setLoading(false);
@@ -85,7 +71,6 @@ const Detection = () => {
 
     return (
         <Layout>
-<<<<<<< Updated upstream
             <div className="max-w-5xl mx-auto space-y-12">
                 <div className="border-b border-[#333] pb-6">
                     <h1 className="text-5xl font-display text-white mb-2">THREAT_DETECTION</h1>
@@ -244,168 +229,9 @@ const Detection = () => {
                         </div>
                     </div>
                 </div>
-=======
-            <div className="max-w-4xl mx-auto space-y-8">
-                <AnimatePresence mode="wait">
-                    {!result ? (
-                        <motion.div
-                            key="input-stage"
-                            initial={{ opacity: 0, scale: 0.98 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            className="space-y-8"
-                        >
-                            <div className="flex items-center space-x-3 text-cyan-500">
-                                <Terminal className="h-5 w-5" />
-                                <h1 className="text-xl font-bold tracking-tight uppercase italic">Active Threat Scanner</h1>
-                            </div>
-
-                            <div className="glass-card rounded-2xl p-8 relative overflow-hidden">
-                                <div className="absolute top-0 left-0 w-full h-[2px] bg-cyan-500/20" />
-                                
-                                <div className="flex space-x-2 mb-10">
-                                    <TabButton active={type === 'url'} onClick={() => setType('url')} icon={<Globe className="w-4 h-4" />} label="Network URL" />
-                                    <TabButton active={type === 'email'} onClick={() => setType('email')} icon={<Mail className="w-4 h-4" />} label="Email Payload" />
-                                </div>
-
-                                <form onSubmit={handleScan} className="space-y-8">
-                                    <div className="relative group">
-                                        {type === 'url' ? (
-                                            <div className="relative">
-                                                <input
-                                                    placeholder="Enter URL for analysis (e.g. https://secure-gate.net/verify)"
-                                                    value={text}
-                                                    onChange={(e) => setText(e.target.value)}
-                                                    className="w-full h-16 bg-slate-950/50 border border-cyan-500/10 rounded-xl px-6 font-mono text-lg focus:outline-none focus:border-cyan-500/40 transition-all placeholder:text-slate-700"
-                                                    autoFocus
-                                                />
-                                            </div>
-                                        ) : (
-                                            <textarea
-                                                placeholder="Paste full email content for linguistic scrutiny..."
-                                                value={text}
-                                                onChange={(e) => setText(e.target.value)}
-                                                className="w-full min-h-[200px] bg-slate-950/50 border border-cyan-500/10 rounded-xl p-6 font-mono text-sm focus:outline-none focus:border-cyan-500/40 transition-all placeholder:text-slate-700 resize-none"
-                                            />
-                                        )}
-                                    </div>
-
-                                    <Button 
-                                        type="submit" 
-                                        disabled={loading || !text}
-                                        className="w-full h-14 btn-cyber text-sm relative overflow-hidden group"
-                                    >
-                                        <AnimatePresence mode="wait">
-                                            {loading ? (
-                                                <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center space-x-3">
-                                                    <Loader2 className="h-5 w-5 animate-spin" />
-                                                    <span className="font-bold uppercase tracking-widest">Running Inference...</span>
-                                                </motion.div>
-                                            ) : (
-                                                <motion.div key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center space-x-3">
-                                                    <Shield className="h-5 w-5" />
-                                                    <span className="font-bold uppercase tracking-widest">Execute Deep Scan</span>
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </Button>
-                                </form>
-                            </div>
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            key="result-stage"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="space-y-8"
-                        >
-                            <div className={`glass-card rounded-2xl p-12 text-center relative overflow-hidden border-t-4 ${result.isPhishing ? 'border-t-red-500 shadow-[0_0_50px_rgba(239,68,68,0.1)]' : 'border-t-green-500 shadow-[0_0_50px_rgba(16,185,129,0.1)]'}`}>
-                                <motion.div 
-                                    initial={{ scale: 0.5, opacity: 0 }}
-                                    animate={{ scale: 1, opacity: 1 }}
-                                    className="mb-8"
-                                >
-                                    <div className="relative w-40 h-40 mx-auto flex items-center justify-center">
-                                        <svg className="w-full h-full -rotate-90">
-                                            <circle cx="80" cy="80" r="74" fill="none" stroke="currentColor" strokeWidth="8" className="text-slate-900" />
-                                            <motion.circle 
-                                                cx="80" cy="80" r="74" fill="none" stroke="currentColor" strokeWidth="8" 
-                                                strokeDasharray="465"
-                                                initial={{ strokeDashoffset: 465 }}
-                                                animate={{ strokeDashoffset: 465 - (465 * result.confidence) }}
-                                                transition={{ duration: 1.5, ease: "easeOut" }}
-                                                className={result.isPhishing ? 'text-red-500' : 'text-green-500'}
-                                            />
-                                        </svg>
-                                        <div className="absolute flex flex-col items-center">
-                                            <span className={`text-3xl font-extrabold ${result.isPhishing ? 'text-red-500' : 'text-green-500'}`}>
-                                                {(result.confidence * 100).toFixed(0)}%
-                                            </span>
-                                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Confidence</span>
-                                        </div>
-                                    </div>
-                                </motion.div>
-
-                                <div className="space-y-4 mb-10">
-                                    <h2 className={`text-4xl font-extrabold tracking-tight uppercase italic ${result.isPhishing ? 'text-red-500' : 'text-green-500'}`}>
-                                        {result.isPhishing ? 'Malicious Detected' : 'Vector Secured'}
-                                    </h2>
-                                    <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">
-                                        Neural engine classification complete
-                                    </p>
-                                </div>
-
-                                <div className="grid md:grid-cols-2 gap-4 text-left">
-                                    <ResultDetailCard 
-                                        label="Linguistic Indicators" 
-                                        value={result.features.suspicious_keywords?.length > 0 ? result.features.suspicious_keywords.join(', ') : 'None detected'} 
-                                        color={result.isPhishing ? 'text-red-400' : 'text-slate-400'}
-                                    />
-                                    <ResultDetailCard 
-                                        label="Vector Length" 
-                                        value={`${result.features.length} characters`} 
-                                        color="text-slate-400"
-                                    />
-                                    {type === 'url' && (
-                                        <>
-                                            <ResultDetailCard label="Protocol Safety" value={result.features.has_https ? 'HTTPS Valid' : 'Insecure HTTP'} color={result.features.has_https ? 'text-green-400' : 'text-red-400'} />
-                                            <ResultDetailCard label="Direct IP Usage" value={result.features.has_ip ? 'Anomalous' : 'Clean'} color={result.features.has_ip ? 'text-red-400' : 'text-slate-400'} />
-                                        </>
-                                    )}
-                                </div>
-
-                                <Button onClick={resetScan} variant="outline" className="mt-12 w-full h-12 btn-outline text-[10px] font-extrabold uppercase tracking-widest">
-                                    Initialize New Scrutiny
-                                </Button>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
->>>>>>> Stashed changes
             </div>
         </Layout>
     );
 };
-
-const TabButton = ({ active, onClick, icon, label }) => (
-    <button
-        onClick={onClick}
-        className={`flex items-center space-x-2 px-6 py-3 rounded-lg transition-all duration-300 font-bold uppercase tracking-widest text-[10px] ${
-            active 
-            ? 'bg-cyan-500 text-slate-950 shadow-[0_0_15px_rgba(34,211,238,0.4)]' 
-            : 'text-slate-500 hover:text-cyan-400 hover:bg-cyan-500/5 border border-transparent'
-        }`}
-    >
-        {icon}
-        <span>{label}</span>
-    </button>
-);
-
-const ResultDetailCard = ({ label, value, color }) => (
-    <div className="bg-slate-950/50 p-4 rounded-xl border border-cyan-500/5">
-        <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest mb-1">{label}</p>
-        <p className={`text-xs font-bold font-mono truncate ${color}`}>{value}</p>
-    </div>
-);
 
 export default Detection;

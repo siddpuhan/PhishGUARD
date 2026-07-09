@@ -1,12 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
-<<<<<<< Updated upstream
 import { Shield, ArrowRight } from 'lucide-react';
-=======
-import { Button } from '../components/ui/button';
-import { Shield, Lock, Mail, ArrowRight, Loader2, ChevronLeft } from 'lucide-react';
->>>>>>> Stashed changes
 import { motion } from 'framer-motion';
 
 const Login = () => {
@@ -32,19 +27,14 @@ const Login = () => {
             clearTimeout(wakeUpTimer);
             navigate('/dashboard');
         } catch (err) {
-<<<<<<< Updated upstream
             clearTimeout(wakeUpTimer);
             setError('Invalid credentials');
-=======
-            setError('Invalid credentials. Check your digital identity.');
->>>>>>> Stashed changes
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-<<<<<<< Updated upstream
         <div className="min-h-screen bg-[#121212] text-white relative overflow-hidden">
             {/* Scan-line Effect */}
             <div className="scanline"></div>
@@ -73,7 +63,7 @@ const Login = () => {
                                 <div className="w-2 h-2 bg-lime-400/40"></div>
                                 <div className="w-2 h-2 bg-lime-400/40"></div>
                             </div>
-                            <span className="ml-4 font-mono text-xs text-lime-400/60 uppercase">Login Terminal</span>
+                            <span className="ml-4 font-mono text-xs text-lime-400/60 uppercase">Security Portal</span>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-6 mt-8">
@@ -92,7 +82,7 @@ const Login = () => {
                             {/* Email Input */}
                             <div className="space-y-2">
                                 <label htmlFor="email" className="font-mono text-xs uppercase tracking-wider text-lime-400 block">
-                                    Email Address
+                                    Identity Email
                                 </label>
                                 <input
                                     id="email"
@@ -108,7 +98,7 @@ const Login = () => {
                             {/* Password Input */}
                             <div className="space-y-2">
                                 <label htmlFor="password" className="font-mono text-xs uppercase tracking-wider text-lime-400 block">
-                                    Password
+                                    Passphrase
                                 </label>
                                 <input
                                     id="password"
@@ -134,7 +124,7 @@ const Login = () => {
                                     </>
                                 ) : (
                                     <>
-                                        <span>Initialize Access</span>
+                                        <span>Initiate Login</span>
                                         <ArrowRight className="h-4 w-4" />
                                     </>
                                 )}
@@ -146,7 +136,7 @@ const Login = () => {
                             <p className="font-mono text-xs text-gray-400 text-center">
                                 New user?{' '}
                                 <Link to="/register" className="text-lime-400 hover:underline uppercase tracking-wider">
-                                    Create Account
+                                    Register Account
                                 </Link>
                             </p>
                         </div>
@@ -162,86 +152,6 @@ const Login = () => {
                     </div>
                 </motion.div>
             </div>
-=======
-        <div className="min-h-screen w-full flex items-center justify-center bg-background cyber-grid p-6">
-            <Link to="/" className="absolute top-10 left-10 flex items-center text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-500/50 hover:text-cyan-400 transition-colors">
-                <ChevronLeft className="w-4 h-4 mr-1" /> Back to System
-            </Link>
-
-            <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="w-full max-w-md"
-            >
-                <div className="text-center mb-10">
-                    <Shield className="h-12 w-12 text-cyan-500 mx-auto mb-4" />
-                    <h1 className="text-3xl font-extrabold tracking-tight uppercase">Authorized Access</h1>
-                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mt-2">Enter credentials to proceed</p>
-                </div>
-
-                <div className="glass-card rounded-2xl p-8 md:p-10 relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
-                    
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        {error && (
-                            <div className="p-4 rounded bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-bold uppercase tracking-widest text-center">
-                                {error}
-                            </div>
-                        )}
-                        
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-bold text-cyan-500/60 uppercase tracking-widest ml-1">Account Email</label>
-                            <div className="relative group">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-600 group-focus-within:text-cyan-500 transition-colors" />
-                                <input
-                                    type="email"
-                                    placeholder="operative@ai-detector.net"
-                                    className="cyber-input pl-12"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-bold text-cyan-500/60 uppercase tracking-widest ml-1">Secure Passphrase</label>
-                            <div className="relative group">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-600 group-focus-within:text-cyan-500 transition-colors" />
-                                <input
-                                    type="password"
-                                    placeholder="••••••••"
-                                    className="cyber-input pl-12"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <Button className="w-full h-12 btn-cyber text-sm relative group overflow-hidden" type="submit" disabled={isLoading}>
-                            {isLoading ? (
-                                <Loader2 className="h-5 w-5 animate-spin" />
-                            ) : (
-                                <div className="flex items-center space-x-2">
-                                    <span>Decrypt Access</span>
-                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                                </div>
-                            )}
-                        </Button>
-                    </form>
-
-                    <div className="mt-8 text-center">
-                        <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">
-                            No credentials?{' '}
-                            <Link to="/register" className="text-cyan-500 hover:text-cyan-400 transition-colors ml-1">
-                                Initialize New Account
-                            </Link>
-                        </p>
-                    </div>
-                </div>
-            </motion.div>
->>>>>>> Stashed changes
         </div>
     );
 };

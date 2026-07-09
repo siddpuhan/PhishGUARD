@@ -1,3 +1,9 @@
+import os
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
