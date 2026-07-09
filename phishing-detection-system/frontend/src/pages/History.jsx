@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import api from '../services/api';
+<<<<<<< Updated upstream
 import { Search, Calendar, Link as LinkIcon, Mail, ChevronDown, ChevronUp, Terminal, AlertTriangle, CheckCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+=======
+import { Badge } from '../components/ui/badge';
+import { ShieldAlert, CheckCircle, Search, Calendar, Link as LinkIcon, Mail, ShieldCheck, Clock, Download, Filter } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Button } from '../components/ui/button';
+>>>>>>> Stashed changes
 
 const History = () => {
     const [scans, setScans] = useState([]);
@@ -52,6 +59,7 @@ const History = () => {
 
     return (
         <Layout>
+<<<<<<< Updated upstream
             <div className="space-y-8">
                 <div className="border-b border-[#333] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
@@ -99,8 +107,57 @@ const History = () => {
                         >
                             {filteredScans.map((scan) => (
                                 <React.Fragment key={scan._id}>
+=======
+            <div className="space-y-8 max-w-6xl mx-auto">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h1 className="text-3xl font-bold tracking-tight">Security Archives</h1>
+                        <p className="text-xs font-bold text-white/30 uppercase tracking-[0.2em] mt-1">Immutable Log of Neural Threat Analyses</p>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <Button variant="ghost" size="sm" className="glass-card rounded-xl text-[10px] font-bold uppercase tracking-widest px-4">
+                            <Filter className="w-3 h-3 mr-2" /> Filter
+                        </Button>
+                        <Button variant="ghost" size="sm" className="glass-card rounded-xl text-[10px] font-bold uppercase tracking-widest px-4">
+                            <Download className="w-3 h-3 mr-2" /> Export
+                        </Button>
+                    </div>
+                </div>
+
+                <div className="glass-card rounded-[32px] overflow-hidden">
+                    <div className="p-8 border-b border-white/5 bg-white/[0.02] flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 rounded-lg bg-accent-purple/10 flex items-center justify-center text-accent-purple">
+                                <Clock className="w-4 h-4" />
+                            </div>
+                            <span className="text-sm font-bold uppercase tracking-widest text-white/60">Historical Data</span>
+                        </div>
+                        <span className="text-[10px] font-bold text-white/20 uppercase tracking-[0.2em]">{scans.length} Total Records</span>
+                    </div>
+
+                    <div className="p-6">
+                        {loading ? (
+                            <div className="flex flex-col items-center justify-center py-20 text-white/20">
+                                <Loader2 className="h-12 w-12 animate-spin mb-4" />
+                                <p className="text-[10px] font-bold uppercase tracking-widest">Decrypting Logs...</p>
+                            </div>
+                        ) : scans.length === 0 ? (
+                            <div className="flex flex-col items-center justify-center py-20 text-white/10">
+                                <Search className="h-16 w-16 mb-4 opacity-10" />
+                                <p className="text-sm font-medium">Archive empty. No threat analyses performed yet.</p>
+                            </div>
+                        ) : (
+                            <motion.div 
+                                variants={container}
+                                initial="hidden"
+                                animate="show"
+                                className="space-y-3"
+                            >
+                                {scans.map((scan) => (
+>>>>>>> Stashed changes
                                     <motion.div 
                                         variants={item}
+<<<<<<< Updated upstream
                                         onClick={() => toggleRow(scan._id)}
                                         className={`grid grid-cols-12 gap-4 p-4 items-center cursor-pointer transition-colors duration-200 group relative ${expandedRow === scan._id ? 'bg-[#111]' : 'hover:bg-[#111]'}`}
                                     >
@@ -237,9 +294,77 @@ const History = () => {
                         </button>
                     </div>
                 )}
+=======
+                                        className="group flex flex-col md:flex-row items-start md:items-center justify-between p-4 rounded-2xl bg-white/[0.01] border border-white/5 hover:bg-white/[0.04] hover:border-white/10 transition-all duration-300"
+                                    >
+                                        <div className="flex items-start space-x-4 mb-4 md:mb-0 w-full md:w-auto">
+                                            <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                                                scan.result.isPhishing 
+                                                ? 'bg-accent-orange/10 text-accent-orange border border-accent-orange/20 shadow-[0_0_20px_rgba(249,115,22,0.1)]' 
+                                                : 'bg-accent-blue/10 text-accent-blue border border-accent-blue/20 shadow-[0_0_20px_rgba(59,130,246,0.1)]'
+                                            }`}>
+                                                {scan.result.isPhishing ? <ShieldAlert className="h-6 w-6" /> : <ShieldCheck className="h-6 w-6" />}
+                                            </div>
+                                            
+                                            <div className="min-w-0 flex-1">
+                                                <div className="flex items-center space-x-3 mb-1">
+                                                    <Badge className="bg-white/5 border-white/10 text-[9px] uppercase font-bold text-white/40 tracking-widest px-2 py-0.5">
+                                                        {scan.inputType === 'url' ? <LinkIcon className="h-2 w-2 mr-1" /> : <Mail className="h-2 w-2 mr-1" />}
+                                                        {scan.inputType}
+                                                    </Badge>
+                                                    <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest flex items-center">
+                                                        <Clock className="h-2.5 w-2.5 mr-1" />
+                                                        {new Date(scan.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                                                    </span>
+                                                </div>
+                                                <p className="text-sm font-bold text-white/80 group-hover:text-white transition-colors truncate max-w-md">
+                                                    {scan.content}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center space-x-8 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-white/5 pt-3 md:pt-0">
+                                            <div className="text-left md:text-right">
+                                                <p className="text-[9px] font-bold text-white/20 uppercase tracking-[0.2em] mb-0.5">Confidence</p>
+                                                <p className={`text-lg font-bold tracking-tighter ${scan.result.isPhishing ? 'text-accent-orange' : 'text-accent-blue'}`}>
+                                                    {(scan.result.confidence * 100).toFixed(1)}%
+                                                </p>
+                                            </div>
+                                            <div className={`px-4 py-2 rounded-xl border font-bold text-[10px] uppercase tracking-widest ${
+                                                scan.result.isPhishing 
+                                                ? 'bg-accent-orange/10 text-accent-orange border-accent-orange/20' 
+                                                : 'bg-accent-blue/10 text-accent-blue border-accent-blue/20'
+                                            }`}>
+                                                {scan.result.isPhishing ? 'Malicious' : 'Secured'}
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </motion.div>
+                        )}
+                    </div>
+                </div>
+>>>>>>> Stashed changes
             </div>
         </Layout>
     );
 };
+
+const Loader2 = ({ className }) => (
+    <svg 
+        className={className} 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="24" 
+        height="24" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="currentColor" 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+    >
+        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+    </svg>
+);
 
 export default History;

@@ -2,8 +2,12 @@ import React, { useEffect, useState, useContext } from 'react';
 import Layout from '../components/Layout';
 import AuthContext from '../context/AuthContext';
 import api from '../services/api';
+<<<<<<< Updated upstream
 import { Activity, ShieldAlert, CheckCircle, Search, Terminal } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+=======
+import { Search, ShieldAlert, ShieldCheck, Database, TrendingUp, AlertTriangle } from 'lucide-react';
+>>>>>>> Stashed changes
 import { motion } from 'framer-motion';
 
 const StatPanel = ({ title, value, subtext, icon: Icon, colorClass, delay }) => {
@@ -59,6 +63,7 @@ const Dashboard = () => {
     const [recentScans, setRecentScans] = useState([]);
     const [loading, setLoading] = useState(true);
 
+<<<<<<< Updated upstream
     const data = [
         { name: 'MON', scans: 4 },
         { name: 'TUE', scans: 3 },
@@ -69,6 +74,8 @@ const Dashboard = () => {
         { name: 'SUN', scans: 6 },
     ];
 
+=======
+>>>>>>> Stashed changes
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -79,7 +86,7 @@ const Dashboard = () => {
                 setStats({ total, phishing, legitimate });
                 setRecentScans(history.slice(0, 5));
             } catch (error) {
-                console.error("Failed to fetch dashboard data", error);
+                console.error("Dashboard data sync failed", error);
             } finally {
                 setLoading(false);
             }
@@ -87,6 +94,7 @@ const Dashboard = () => {
         fetchData();
     }, []);
 
+<<<<<<< Updated upstream
     return (
         <Layout>
             <div className="space-y-12">
@@ -254,6 +262,121 @@ const Dashboard = () => {
                                     </div>
                                 ))
                             )}
+=======
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 10 },
+        show: { opacity: 1, y: 0 }
+    };
+
+    return (
+        <Layout>
+            <motion.div variants={containerVariants} initial="hidden" animate="show" className="space-y-8">
+                {/* Stats Grid */}
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    <StatCard 
+                        title="Database Assets" 
+                        value={stats.total} 
+                        icon={<Database className="h-5 w-5 text-cyan-500" />}
+                        status="Live Sync"
+                    />
+                    <StatCard 
+                        title="Critical Threats" 
+                        value={stats.phishing} 
+                        icon={<ShieldAlert className="h-5 w-5 text-red-500" />}
+                        status="Isolated"
+                    />
+                    <StatCard 
+                        title="Verified Assets" 
+                        value={stats.legitimate} 
+                        icon={<ShieldCheck className="h-5 w-5 text-green-500" />}
+                        status="Safe"
+                    />
+                    <StatCard 
+                        title="System Risk" 
+                        value={`${stats.total > 0 ? ((stats.phishing / stats.total) * 100).toFixed(1) : 0}%`} 
+                        icon={<TrendingUp className="h-5 w-5 text-yellow-500" />}
+                        status="Calculated"
+                    />
+                </div>
+
+                <div className="grid gap-8 lg:grid-cols-3">
+                    {/* Recent Vector Logs */}
+                    <motion.div variants={itemVariants} className="lg:col-span-2 glass-card rounded-2xl p-8">
+                        <div className="flex items-center justify-between mb-8">
+                            <div>
+                                <h3 className="text-sm font-bold uppercase tracking-widest text-cyan-500">Recent Vector Logs</h3>
+                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Real-time scan history</p>
+                            </div>
+                        </div>
+
+                        <div className="overflow-hidden">
+                            <table className="w-full text-left border-collapse">
+                                <thead className="text-[10px] font-bold text-slate-500 uppercase tracking-widest border-b border-cyan-500/5">
+                                    <tr>
+                                        <th className="pb-4">Source Type</th>
+                                        <th className="pb-4">Payload Content</th>
+                                        <th className="pb-4 text-right">Classification</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-xs">
+                                    {recentScans.length === 0 ? (
+                                        <tr>
+                                            <td colSpan="3" className="py-10 text-center text-slate-600 uppercase font-bold tracking-widest">No vectors logged</td>
+                                        </tr>
+                                    ) : (
+                                        recentScans.map((scan, i) => (
+                                            <tr key={i} className="border-b border-cyan-500/5 hover:bg-cyan-500/[0.02] transition-colors">
+                                                <td className="py-4 font-bold text-cyan-500/60 uppercase">{scan.inputType}</td>
+                                                <td className="py-4 font-mono text-slate-400 truncate max-w-[300px]">{scan.content}</td>
+                                                <td className="py-4 text-right">
+                                                    <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${
+                                                        scan.result.isPhishing ? 'bg-red-500/10 text-red-500 border border-red-500/20' : 'bg-green-500/10 text-green-500 border border-green-500/20'
+                                                    }`}>
+                                                        {scan.result.isPhishing ? 'Malicious' : 'Clean'}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </motion.div>
+
+                    {/* Quick Analysis Info */}
+                    <motion.div variants={itemVariants} className="space-y-6">
+                        <div className="glass-card rounded-2xl p-8 border-l-4 border-l-cyan-500">
+                            <h4 className="text-[10px] font-bold uppercase tracking-widest text-cyan-500 mb-4">Inference Summary</h4>
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-500 font-bold uppercase">System Uptime</span>
+                                    <span className="text-white font-bold">99.98%</span>
+                                </div>
+                                <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-500 font-bold uppercase">Avg Response</span>
+                                    <span className="text-white font-bold">142ms</span>
+                                </div>
+                                <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-500 font-bold uppercase">Threat Coverage</span>
+                                    <span className="text-white font-bold">Full Spectrum</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="glass-card rounded-2xl p-8 border-l-4 border-l-red-500">
+                            <div className="flex items-center space-x-3 mb-4">
+                                <AlertTriangle className="h-5 w-5 text-red-500" />
+                                <h4 className="text-[10px] font-bold uppercase tracking-widest text-red-500">Critical Alert</h4>
+                            </div>
+                            <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                                Ensure all URL redirects are scrutinized. Zero-day obfuscation techniques detected in recent network vectors.
+                            </p>
+>>>>>>> Stashed changes
                         </div>
                     </motion.div>
                 </div>
@@ -261,5 +384,21 @@ const Dashboard = () => {
         </Layout>
     );
 };
+
+const StatCard = ({ title, value, icon, status }) => (
+    <motion.div 
+        variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}
+        className="glass-card p-6 rounded-2xl group transition-all duration-300 hover:border-cyan-500/20"
+    >
+        <div className="flex items-center justify-between mb-4">
+            <div className="p-2 bg-slate-950 rounded border border-cyan-500/10 group-hover:border-cyan-500/30 transition-all">
+                {icon}
+            </div>
+            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{status}</div>
+        </div>
+        <div className="text-3xl font-extrabold tracking-tight mb-1 text-white">{value}</div>
+        <p className="text-[10px] font-bold text-cyan-500/50 uppercase tracking-widest">{title}</p>
+    </motion.div>
+);
 
 export default Dashboard;
