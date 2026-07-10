@@ -37,7 +37,7 @@ async function verifyFlow() {
 
         // 3. SCAN PAYLOAD
         console.log('\n[3/4] Submitting phishing target to threat scanner...');
-        const scanRes = await axios.post(`${BACKEND_URL}/scan/predict`, {
+        const scanRes = await axios.post(`${BACKEND_URL}/analyze`, {
             text: 'http://secure-verify-update.bank.lottery-scam.net/login',
             type: 'url'
         }, authHeaders);

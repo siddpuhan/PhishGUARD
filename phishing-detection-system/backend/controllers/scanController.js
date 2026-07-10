@@ -1,74 +1,4 @@
-const axios = require('axios');
 const supabase = require('../config/supabase');
-
-// @desc    Scan URL or Text
-// @route   POST /api/scan/predict
-// @access  Private
-const predictPhishing = async (req, res) => {
-    const { text, type } = req.body; // type: 'url' or 'email'
-
-    if (!text || !type) {
-        return res.status(400).json({ message: 'Text and type are required' });
-    }
-
-    try {
-        // Call FastAPI ML Service with extended timeout for Render free tier wake-up
-        const mlServiceUrl = process.env.ML_SERVICE_URL || 'http://127.0.0.1:8000';
-        const mlResponse = await axios.post(`${mlServiceUrl}/predict`, {
-            text,
-            type,
-        }, {
-            timeout: 90000, // 90 seconds to allow for Render free tier wake-up
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const { is_phishing, confidence, features } = mlResponse.data;
-
-        // Save to History using Supabase
-        const { data: scan, error } = await supabase
-            .from('scans')
-            .insert([{
-                user_id: req.user.id,
-                input_type: type,
-                content: text,
-                result: {
-                    isPhishing: is_phishing,
-                    confidence: confidence,
-                    features: features,
-                },
-            }])
-            .select()
-            .single();
-
-        if (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Error saving scan' });
-        }
-
-        // Return in format expected by frontend
-        res.json({
-            result: {
-                isPhishing: is_phishing,
-                confidence: confidence,
-                features: features,
-            }
-        });
-    } catch (error) {
-        console.error('ML Service Error:', error.message);
-        if (error.code === 'ECONNABORTED') {
-            return res.status(504).json({ 
-                message: 'ML service is waking up. Please try again in a moment.',
-                error: 'timeout'
-            });
-        }
-        res.status(500).json({ 
-            message: 'Error processing scan request',
-            error: error.response?.data?.detail || error.message
-        });
-    }
-};
 
 // @desc    Get User Scan History
 // @route   GET /api/scan/history
@@ -143,4 +73,4 @@ const getAnalytics = async (req, res) => {
     }
 };
 
-module.exports = { predictPhishing, getHistory, getAnalytics };
+module.exports = { getHistory, getAnalytics };

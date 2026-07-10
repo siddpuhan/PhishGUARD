@@ -50,7 +50,7 @@ const Detection = () => {
         }, 300);
 
         try {
-            const { data } = await api.post('/scan/predict', { text, type });
+            const { data } = await api.post('/analyze', { text, type });
             await new Promise(resolve => setTimeout(resolve, 2000)); // Ensure logs finish
             setResult(data.result);
         } catch (error) {
