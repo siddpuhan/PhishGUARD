@@ -14,10 +14,12 @@ class GroqService {
      * Analyzes target payload (URL, email, SMS, message) for phishing indicators.
      * @param {string} text - The input payload to scan.
      * @param {string} type - The payload type (url, email, sms, message).
-     * @param {number} retries - Remaining retries.
+     * @param {string} requestId - Request ID for log correlation.
+     * @param {number} retries - Remaining retries for network/timeout errors.
+     * @param {number} malformedRetries - Remaining retries for malformed JSON formats.
      * @returns {Promise<Object>} The parsed threat analysis object.
      */
-    async analyzePayload(text, type, retries = 3) {
+    async analyzePayload(text, type, requestId, retries = 2, malformedRetries = 1) {
         if (!this.apiKey) {
             throw new Error('Groq API Key is missing. Configure GROQ_API_KEY in the backend .env.');
         }
@@ -53,7 +55,7 @@ Input Payload to Scrutinize:
 ${text}`;
 
         try {
-            console.log(`[GroqService] Sending payload to Groq API (Type: ${type}, Retries left: ${retries})...`);
+            console.log('Calling Groq...');
             
             const response = await axios.post(
                 this.apiUrl,
@@ -63,8 +65,8 @@ ${text}`;
                         { role: 'system', content: systemPrompt },
                         { role: 'user', content: `Please scan this payload and return the JSON analysis report: "${text}"` }
                     ],
-                    temperature: 0.1, // Lower temperature for more deterministic/factual output
-                    response_format: { type: 'json_object' } // Enforce JSON response mode
+                    temperature: 0.1,
+                    response_format: { type: 'json_object' }
                 },
                 {
                     headers: {
@@ -75,33 +77,82 @@ ${text}`;
                 }
             );
 
+            console.log('Groq response received');
             const content = response.data.choices[0].message.content;
-            console.log('[GroqService] Received response from Groq:', content);
             
             const parsedData = JSON.parse(content.trim());
 
-            // Simple validation check
-            if (typeof parsedData.isPhishing !== 'boolean' || typeof parsedData.confidence !== 'number') {
-                throw new Error('Parsed response does not match expected schema format');
+            // Key Validation
+            const requiredFields = [
+                'isPhishing',
+                'confidence',
+                'risk',
+                'category',
+                'summary',
+                'indicators',
+                'recommendation'
+            ];
+
+            const missingFields = requiredFields.filter(field => !(field in parsedData));
+            if (missingFields.length > 0) {
+                throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
             }
 
+            if (typeof parsedData.isPhishing !== 'boolean') {
+                throw new Error('Field "isPhishing" must be a boolean');
+            }
+
+            if (typeof parsedData.confidence !== 'number') {
+                throw new Error('Field "confidence" must be a number');
+            }
+
+            console.log('Response validation passed');
             return parsedData;
         } catch (err) {
-            console.error(`[GroqService] Error occurred: ${err.message}`);
+            const isSyntaxError = err instanceof SyntaxError;
+            const isValidationError = err.message.includes('Missing required fields') || err.message.includes('must be a');
 
-            // Rate limit handling (HTTP 429) or timeouts/server errors
+            // Handle malformed JSON with 1 automatic retry
+            if (malformedRetries > 0 && (isSyntaxError || isValidationError)) {
+                console.warn(`[GroqService] [Request ID: ${requestId}] Malformed JSON response received. Retrying automatically once...`);
+                return this.analyzePayload(text, type, requestId, retries, malformedRetries - 1);
+            }
+
+            // Identify error context for structured error logging
+            let errorType = 'APIError';
+            let statusCode = err.response ? err.response.status : null;
+
+            if (err.code === 'ECONNABORTED') {
+                errorType = 'Timeout';
+                statusCode = 408;
+            } else if (isSyntaxError) {
+                errorType = 'SyntaxError';
+                statusCode = 422;
+            } else if (isValidationError) {
+                errorType = 'ValidationError';
+                statusCode = 422;
+            }
+
+            // Structured logging of failures
+            console.error(`===== AI ANALYSIS ERROR =====\nRequest ID: ${requestId}\nError Type: ${errorType}\nStatus Code: ${statusCode || 'N/A'}\nMessage: ${err.message}\n=============================`);
+
+            // Network retry strategy (Rate limit 429, timeouts, or backend 5xx)
             const isRateLimit = err.response && err.response.status === 429;
             const isTimeout = err.code === 'ECONNABORTED';
             const isServerErr = err.response && err.response.status >= 500;
 
-            if (retries > 0 && (isRateLimit || isTimeout || isServerErr || err instanceof SyntaxError)) {
-                const backoffDelay = isRateLimit ? 5000 : 1500; // Wait longer for rate limits
-                console.log(`[GroqService] Retrying in ${backoffDelay}ms...`);
+            if (retries > 0 && (isRateLimit || isTimeout || isServerErr)) {
+                const backoffDelay = isRateLimit ? 5000 : 1500;
+                console.log(`[GroqService] Network error. Retrying in ${backoffDelay}ms...`);
                 await new Promise(resolve => setTimeout(resolve, backoffDelay));
-                return this.analyzePayload(text, type, retries - 1);
+                return this.analyzePayload(text, type, requestId, retries - 1, malformedRetries);
             }
 
-            throw err;
+            // Exclude stacks, return clean errors
+            const friendlyErr = new Error(err.message);
+            friendlyErr.type = errorType;
+            friendlyErr.statusCode = statusCode || 500;
+            throw friendlyErr;
         }
     }
 }

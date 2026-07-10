@@ -1,26 +1,6 @@
 version: '3.8'
 
 services:
-  # ML Service - Python FastAPI
-  ml-service:
-    build:
-      context: ./ml-service
-      dockerfile: Dockerfile
-    container_name: phishguard-ml
-    restart: unless-stopped
-    ports:
-      - "8000:8000"
-    environment:
-      - PYTHONUNBUFFERED=1
-    networks:
-      - phishguard-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-
   # Backend - Node.js Express
   backend:
     build:
@@ -29,21 +9,18 @@ services:
     container_name: phishguard-backend
     restart: unless-stopped
     ports:
-      - "5000:5000"
+      - "8000:8000"
     environment:
       - NODE_ENV=production
-      - PORT=5000
+      - PORT=8000
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_KEY=${SUPABASE_KEY}
       - JWT_SECRET=${JWT_SECRET}
-      - ML_SERVICE_URL=http://ml-service:8000
-    depends_on:
-      ml-service:
-        condition: service_healthy
+      - GROQ_API_KEY=${GROQ_API_KEY}
     networks:
       - phishguard-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -72,6 +49,3 @@ services:
 networks:
   phishguard-network:
     driver: bridge
-
-volumes:
-  ml-models:

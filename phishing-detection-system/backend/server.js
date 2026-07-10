@@ -3,10 +3,14 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const morgan = require('morgan');
 
 dotenv.config();
 
 const app = express();
+
+// Request logging
+app.use(morgan('dev'));
 
 // Security Middleware
 app.use(helmet());
